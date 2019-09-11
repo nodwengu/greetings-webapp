@@ -1,129 +1,93 @@
-const createGreetings = function() {
-   let greetingsCounter = 0;
+module.exports =  function CreateGreetings() {
+   let greetingCounter = 0;
    let name = "";
-   let obj = {};
    let namesGreeted = {};
+   let greeting = "";
+   let names = []
    
-   function setCounter(val) {
-      greetingsCounter = val;
+   function setName(theName) {
+      if(theName == "") {
+         return
+      }
+      name = theName
+
+      names.push({
+         name
+      });
+   }
+   function getName() {
+      return name
+   }
+
+   function getNames() {
+      return names;
    }
 
    function increaseCounter() {
-      greetingsCounter++;
+      greetingCounter++;
    }
+
+
 
    function getCounter() {
-      return greetingsCounter;
+      return greetingCounter;
    }
 
-   function setName(theName) {
-      name = theName;
-   }
+   function setGreeting(lang, theName) {
+      if(theName == '' || (lang === undefined && lang !== 'english' && lang !== 'afrikaans'&& lang !== 'xhosa')) {
+         return
+      }
 
-   function getName() {
-      return name;
-   }
-
-   function englishGreeting() {
-      return "Hello, " + name;
-   }
-
-   function afrikaansGreeting() {
-      return "Hallo, " + name;
-   }
-
-   function xhosaGreeting() {
-      return "Molo, " + name;
-   }  
-
-   function displayError(name) {
-      return name == "" || !isNaN(name); 
-   }
-
-   function setNameObj() {
-      obj = {
-         name: name
+      if(lang === "english") {
+        greeting = `Hello, ${theName.charAt(0).toUpperCase() + theName.slice(1)}`;
+        increaseCounter();
+      } else if(lang === "afrikaans") {
+         greeting = `Goeie dag, ${theName.charAt(0).toUpperCase() + theName.slice(1)}`;
+         increaseCounter();
+      } else if(lang === "xhosa") {
+         greeting = `Mholo, ${theName.charAt(0).toUpperCase() + theName.slice(1)}`;
+         increaseCounter();
       }
    }
-
-   function getNameObj() {
-      return obj;
+   function getGreeting() {
+      return greeting;
    }
 
-   function checkName(theNames) {
-      var isRepeated  = false;
+   function isNameRepeated(nameInput) {
+      let isRepeated  = false;
+      
+      for(let i = 0; i < names.length; i++) {
+         let currentName = names[i];
+         let name = currentName.name;
 
-      for(let i = 0; i < theNames.length; i++) {
-         var elem = theNames[i];
-         var name = elem.name;
          if (namesGreeted[name] === undefined){
-             //add an entry for the user that was greeted in the Object Map
-             namesGreeted[name] = 0;
+            namesGreeted[name] = 0;
          } else {
-             namesGreeted[name]++;
+            namesGreeted[name]++;
          }
-      }
-      var newName = getName();
-      for(var key in namesGreeted) {
-        if(namesGreeted.hasOwnProperty(newName)) {
-            //alert(newName + " already exists");
-            isRepeated  = true;
-            break;
-        } 
-      }   
-      return isRepeated ;
-   } 
+
+         for(let key in namesGreeted) {
+            if(namesGreeted.hasOwnProperty(nameInput)) {
+               isRepeated  = true;
+            } 
+         }   
+      } 
+      return isRepeated;
+   }
+
 
    return {
-      getCounter,
-      setCounter,
-      increaseCounter,
       setName,
-      englishGreeting,
-      afrikaansGreeting,
-      xhosaGreeting,
       getName,
-      displayError,
-      setNameObj,
-      getNameObj,
-      checkName
+      getNames,
+
+      increaseCounter,
+      getCounter,
+
+      setGreeting,
+      getGreeting,
+     
+      isNameRepeated
    }
 }
-
-var greetInstance = createGreetings();
-
-// greetInstance.setCounter(0);
-// greetInstance.increaseCounter();
-// greetInstance.increaseCounter();
-// alert(greetInstance.getCounter());
-
-
-// greetInstance.setName("Thando");
-// greetInstance.setNameObj();
-// console.log(greetInstance.getNameObj());
-
-// greetInstance.setName("Thanduxolo Nodwengu");
-// alert( greetInstance.getName() );
-
-
-// greetInstance.setName("Thanduxolo Nodwengu");
-// alert( greetInstance.englishGreeting() );
-
-// greetInstance.setName("Thanduxolo Nodwengu");
-// alert( greetInstance.afrikaansGreeting() );
-
-// greetInstance.setName("Thanduxolo Nodwengu");
-// alert( greetInstance.xhosaGreeting() );
-
-// alert( greetInstance.displayError("wewe") ); //false
-//  alert( greetInstance.displayError("") );     //true
-//  alert( greetInstance.displayError(5445) );   //true
-
- //greetInstance.setName("Buli"); //false
- //greetInstance.setName("zan"); //true
-//  var names = [{name: 'kiro'}, {name: 'tedo'},{name: 'zan'}];
-//  alert( greetInstance.checkName(names) );
- 
-
-
 

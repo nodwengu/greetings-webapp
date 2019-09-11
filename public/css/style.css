@@ -26,3 +26,13 @@
 .container {
   margin-top: 42px;
 }
+
+.counter {
+    margin-top: 0;
+    /* border: solid #4ec8ba 1px; */
+    background-color: white;
+    width: 65px;
+    height: 65px;
+    border-radius: 100%;
+    text-align: center;
+}
