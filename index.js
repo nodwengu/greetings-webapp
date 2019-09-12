@@ -12,13 +12,13 @@ const app = express();
 
 // initialise session middleware - flash-express depends on it
 app.use(session({
-   secret : "<add a secret string here>",
+   secret: "<add a secret string here>",
    resave: false,
    saveUninitialized: true
- }));
+}));
 
- // initialise the flash middleware
- app.use(flash());
+// initialise the flash middleware
+app.use(flash());
 
 //Configure the middleware
 app.engine('handlebars', exphbs({ defaultLayout: 'main' }));
@@ -33,10 +33,10 @@ app.use(express.static('public'))
 
 app.get('/', (req, res) => {
    res.render('index', {
-      name: createGreetings.getName(),
+      user: createGreetings.getUsers(),
       greeting: createGreetings.getGreeting(),
-      greetingCounter: createGreetings.getCounter(),
-      inputError:  req.flash('msg1')
+      greetingsCounter: createGreetings.getGreetingsCounter(),
+      inputError: req.flash('msg1')
    });
 })
 
@@ -44,27 +44,37 @@ app.post('/greet', (req, res) => {
    let name = req.body.name;
    let lang = req.body.languageRadio;
 
-   if(name == "" || (lang === undefined && lang !== 'english' && lang !== 'afrikaans'&& lang !== 'xhosa')) {
+   if (name == "" || (lang === undefined && lang !== 'english' && lang !== 'afrikaans' && lang !== 'xhosa')) {
       req.flash('msg1', 'Error: Input is required!')
    } else {
-      if( createGreetings.isNameRepeated(name) === false ) {
-         createGreetings.setName(name);
+      if (createGreetings.isNameRepeated(name) === false) {
+         createGreetings.setUser(name);
          createGreetings.setGreeting(lang, name);
-      } 
+         createGreetings.increaseCounter();
+        
+      } else {
+         createGreetings.setGreeting(lang, name);
+         createGreetings.updateUserCounter(name);
+         createGreetings.increaseCounter();
+      }
    }
- 
+
    res.redirect('/')
 })
 
-
 app.get('/greeted', (req, res) => {
    res.render('greeted', {
-      names: createGreetings.getNames()
+      names: createGreetings.getUsers()
    })
-
 })
 
-app.get('/counter/<USER_NAME>', (req, res) => {
+app.get('/counter/:user_name', (req, res) => {
+   const user_name = req.params.user_name
+   res.render('counter', {
+      user_name: createGreetings.getGreetingFor(user_name),
+      counter: createGreetings.getUserCounter(user_name)
+   });
+
 
 })
 

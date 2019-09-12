@@ -27,7 +27,7 @@
         </div>
         <div class="card-content">
           <div class="row">
-            <div class="col s8 m8" style="border: solid cadetblue 1px;">
+            <div class="col s8 m8" style="">
               <form action="/greet" method="POST">
                 <div class="input-field" style="display: flex; align-items: center;">
                   <span for="name">Name</span>
@@ -54,7 +54,7 @@
                 </div>
               </form>
               {{#if inputError}}
-              <div class="message center animated fadeIn" style="margin: 30% 0 0 0;">
+              <div class="message errorMessage center animated fadeIn" style="margin: 30% 0 0 0;">
                 <h5> {{inputError}}</h5>
               </div>
               {{else}}
@@ -64,7 +64,7 @@
               {{/if}}
             </div>
             <div class="col s4 m4">
-              <h2 class="counter">{{greetingCounter}}</h2>
+              <h2 class="counter">{{greetingsCounter}}</h2>
             </div>
           </div>
         </div>

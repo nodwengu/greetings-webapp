@@ -1,15 +1,15 @@
-<h3>List of Names Greeted</h3>
-<table class="highlight">
+<h4 class="center" style="margin-top: 5%;">List of Names Greeted</h4>
+<table class="highlight" style="    border: solid 1px #DCDBDC;">
   <thead>
     <tr>
-      <th>Name</th>
+      <th style="font-size: 1.4em;">Name</th>
     </tr>
   </thead>
 
   <tbody>
     {{#each names}}
     <tr>
-      <td>{{name}}</td>
+      <td><a href="/counter/{{name}}">{{name}}</a></td>
     </tr>
     {{/each}}
   </tbody>
