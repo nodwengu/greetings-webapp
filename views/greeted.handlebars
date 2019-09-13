@@ -1,16 +1,24 @@
-<h4 class="center" style="margin-top: 5%;">List of Names Greeted</h4>
-<table class="highlight" style="    border: solid 1px #DCDBDC;">
-  <thead>
-    <tr>
-      <th style="font-size: 1.4em;">Name</th>
-    </tr>
-  </thead>
+<div class="card" style="margin: 4.5rem 0 1rem 0;">
+  <div class="card-content">
+    <div class="row">
+      <div>
+        <h4 class="center" style="margin-top: 1%;">List of Names Greeted</h4>
+        <table class="highlight" style="    border: solid 1px #DCDBDC;">
+          <thead>
+            <tr>
+              <th style="font-size: 1.4em;">Name</th>
+            </tr>
+          </thead>
 
-  <tbody>
-    {{#each names}}
-    <tr>
-      <td><a href="/counter/{{name}}">{{name}}</a></td>
-    </tr>
-    {{/each}}
-  </tbody>
-</table>
+          <tbody>
+            {{#each names}}
+            <tr>
+              <td><a href="/counter/{{name}}">{{name}}</a></td>
+            </tr>
+            {{/each}}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
