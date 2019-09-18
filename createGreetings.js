@@ -1,42 +1,45 @@
-module.exports = function CreateGreetings() {
-  let greetingsCounter = 0;
+
+module.exports = function CreateGreetings(pool) {
   let name = "";
   let usersGreeted = {};
   let greeting = "";
-  let users = [];
 
-  function setUser(theName) {
-    name = theName
+  async function setUser(theName) {
+    name = theName;
+    let counter = 1;
 
-    users.push({
-      name,
-      counter: 1
-    });
+    return pool.query(`INSERT INTO users(name, counter) 
+      values ($1, $2)`, [name, counter]);
   }
 
-  function getUser() {
-    return name;
+  async function getUsers(){
+    const query = 'SELECT * FROM users';
+    let results = await pool.query(query);
+    return results.rows;
   }
 
-  function getUsers() {
-    return users;
-  }
-
-  function increaseCounter() {
-    greetingsCounter++;
-  }
-
-  function updateUserCounter(theName) {
+  async function updateUserCounter(theName) {
+    let users = await getUsers();
+    var id, name = theName, counter; 
     if (isNameRepeated(theName)) {
-      users.forEach(user => {
-        if (user.name === theName) {
-          user.counter++;
+      for(let user of users) {
+        if(user.name === theName) {
+          id = user.id;
+          name = user.name;
+          counter = (user.counter + 1); 
         }
-      });
+      }
     }
+    let updateQuery = `UPDATE users 
+        SET name = $2, counter = $3 
+        WHERE id = $1`;
+
+    return pool.query(updateQuery, [id, name, counter]);
   }
 
-  function getUserCounter(theName) {
+  async function getUserCounter(theName) {
+    let users = await getUsers();
+
     let filteredName = users.filter(option => {
       return option.name === theName;
     })
@@ -44,8 +47,10 @@ module.exports = function CreateGreetings() {
     return filteredName[0].counter;
   }
 
-  function getGreetingsCounter() {
-    return greetingsCounter;
+  async function getGreetingsCounter() {
+    const query = 'SELECT SUM(counter) FROM users';
+    let results = await pool.query(query);
+    return results.rows[0];
   }
 
   function setGreeting(lang, theName) {
@@ -57,11 +62,14 @@ module.exports = function CreateGreetings() {
       greeting = `Mholo, ${theName.charAt(0).toUpperCase() + theName.slice(1)}`;
     }
   }
+  
   function getGreeting() {
     return greeting;
   }
 
-  function getGreetingFor(theName) {
+  async function getGreetingFor(theName) {
+    let users = await getUsers();
+
     let filteredName = users.filter(option => {
       return option.name === theName;
     })
@@ -69,9 +77,10 @@ module.exports = function CreateGreetings() {
     return filteredName[0].name;
   }
 
-  function isNameRepeated(nameInput) {
+  async function isNameRepeated(nameInput) {
     let isRepeated = false;
-
+    let users = await getUsers();
+    
     for (let i = 0; i < users.length; i++) {
       let currentName = users[i];
       let name = currentName.name;
@@ -88,20 +97,21 @@ module.exports = function CreateGreetings() {
         }
       }
     }
+    
     return isRepeated;
   }
-
+ 
   return {
     setUser,
-    getUser,
     getUsers,
-    increaseCounter,
     getGreetingsCounter,
     getUserCounter,
     setGreeting,
     getGreeting,
     isNameRepeated,
     getGreetingFor,
-    updateUserCounter
+    updateUserCounter,
+
   }
+  
 }
