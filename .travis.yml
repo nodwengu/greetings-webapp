@@ -10,7 +10,7 @@ before_script:
 
 
 env:
-  - DATABASE_URL=postgresql://postgres@localhost:5432/my_products_tests
+  - DATABASE_URL=postgresql://postgres@localhost:5432/users_tests
 
 
 
