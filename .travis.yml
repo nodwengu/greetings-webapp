@@ -4,16 +4,10 @@ node_js:
   - v9.11.2
 
 before_script:
-  - psql -c 'create database  users_tests;' -U postgres
-
-
-
+  - psql -c 'create database users_tests;' -U postgres
 
 env:
   - DATABASE_URL=postgresql://postgres@localhost:5432/users_tests
-
-
-
 
 addons:
     apt:
