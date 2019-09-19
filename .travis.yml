@@ -1,6 +1,9 @@
 services:
   - postgresql
 
+env:
+  - DATABASE_URL=postgresql://postgres@localhost:5432/users_tests
+
 language: node_js
 
 node_js:
