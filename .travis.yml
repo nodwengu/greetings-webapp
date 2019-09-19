@@ -7,7 +7,7 @@ node_js:
   - v9.11.2
 
 before_script:
-  - cp config/database.yml.travis config/database.yml
+  - psql -c "CREATE DATABASE users_tests;" -U postgres
 
 addons:
   postgresql: "10"
