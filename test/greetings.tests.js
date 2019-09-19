@@ -7,7 +7,6 @@ const Pool = pg.Pool;
 
 const connectionString = 'postgresql://coder:pg123@localhost:5432/users_tests';
 
-
 const pool = new Pool({
   connectionString
 });
@@ -21,7 +20,7 @@ describe('The Greetings database web app', function () {
   it('should be able to add a user', async function(){
       const createGreetings = CreateGreetings(pool);
 
-      await createGreetings.setUser('Thando');
+      await createGreetings.setUser({name: 'Thando'});
       let users = await createGreetings.getUsers();
       assert.equal(1, users.length);
   });
@@ -29,8 +28,8 @@ describe('The Greetings database web app', function () {
   it('should be able to return the sum of greetings counter for all users', async function(){
     const createGreetings = CreateGreetings(pool);
 
-    await createGreetings.setUser('Thando');
-    await createGreetings.setUser('Nodwengu');
+    await createGreetings.setUser({name: 'Thando'});
+    await createGreetings.setUser({name: 'Nodwengu'});
    
     assert.deepEqual({ sum: '2' }, await createGreetings.getGreetingsCounter());
   });
@@ -38,7 +37,7 @@ describe('The Greetings database web app', function () {
   it('should be able to return the greetings counter for specific user', async function(){
     const createGreetings = CreateGreetings(pool);
     
-    await createGreetings.setUser('Thando');
+    await createGreetings.setUser({name: 'Thando'});
    
     assert.equal(1, await createGreetings.getUserCounter('Thando'));
   });
@@ -46,7 +45,7 @@ describe('The Greetings database web app', function () {
   it('should be able to update and return the greetings counter for specific user', async function(){
     const createGreetings = CreateGreetings(pool);
     
-    await createGreetings.setUser('Thando');
+    await createGreetings.setUser({name: 'Thando'});
     await createGreetings.updateUserCounter('Thando');
    
     assert.equal(2, await createGreetings.getUserCounter('Thando'));
@@ -69,9 +68,9 @@ describe('The Greetings database web app', function () {
   it('should be able to update and return the greetings counter for specific user', async function(){
     const createGreetings = CreateGreetings(pool);
     
-    await createGreetings.setUser('Thando');
-    await createGreetings.setUser('Gorge');
-    await createGreetings.setUser('Shaun');
+    await createGreetings.setUser({name: 'Thando'});
+    await createGreetings.setUser({name: 'Gorge'});
+    await createGreetings.setUser({name: 'Shaun'});
     await createGreetings.updateUserCounter('Shaun');
    
     assert.equal("Thando", await createGreetings.getGreetingFor('Thando'));
