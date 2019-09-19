@@ -21,7 +21,6 @@ const pool = new Pool({
    ssl : useSSL
 });
 
-
 const CreateGreetings = require('./createGreetings');
 const createGreetings = CreateGreetings(pool);
 
@@ -48,48 +47,98 @@ app.use(bodyParser.json())
 
 app.use(express.static('public'))
 
-app.get('/', async (req, res) => {
-   res.render('index', {
-      user: await createGreetings.getUsers(),
-      greeting: createGreetings.getGreeting(),
-      greetingsCounter: await createGreetings.getGreetingsCounter(),
-      inputError: req.flash('msg1')
-   });
-})
+app.get('/', async (req, res, next) => {
+   try {
+      res.render('index', {
+         user: await createGreetings.getUsers(),
+         greeting: createGreetings.getGreeting(),
+         greetingsCounter: await createGreetings.getGreetingsCounter(),
+         inputError: req.flash('msg1')
+      });
 
-app.post('/greet', async (req, res) => {
-   let name = req.body.name;
-   let lang = req.body.languageRadio;
-
-   if (name == "" || (lang === undefined && lang !== 'english' && lang !== 'afrikaans' && lang !== 'xhosa')) {
-      req.flash('msg1', 'Error: Input is required!')
-   } else {
-      if (await createGreetings.isNameRepeated(name) === false) {
-         await createGreetings.setUser(name);
-         createGreetings.setGreeting(lang, name);
-      } else{
-         createGreetings.setGreeting(lang, name);
-         await createGreetings.updateUserCounter(name);
-      }
+   } catch(error) {
+      next(error);
    }
-
-   res.redirect('/')
 })
 
-app.get('/greeted', async (req, res) => {
-   res.render('greeted', {
-      names: await createGreetings.getUsers()
-   })
+app.post('/greet', async (req, res, next) => {
+   try {
+      let name = req.body.name;
+      let lang = req.body.languageRadio;
+
+      if (name == "" || (lang === undefined && lang !== 'english' && lang !== 'afrikaans' && lang !== 'xhosa')) {
+         req.flash('msg1', 'Error: Input is required!')
+      } else {
+         if (await createGreetings.isNameRepeated(name) === false) {
+            await createGreetings.setUser({
+               name: name
+            });
+            createGreetings.setGreeting(lang, name);
+         } else{
+            createGreetings.setGreeting(lang, name);
+            await createGreetings.updateUserCounter(name);
+         }
+      }
+
+      res.redirect('/')
+      
+   } catch (error) {
+      next(error)
+   }
 })
 
-app.get('/counter/:user_name', async (req, res) => {
-   const user_name = req.params.user_name
+app.get('/greeted', async (req, res, next) => {
+   try {
+      res.render('greeted', {
+         names: await createGreetings.getUsers(),
+         infoMsg: req.flash('info'),
+         show: 'show',
+         hide: 'hide'
+      })
 
-   res.render('counter', {
-      user_name: await createGreetings.getGreetingFor(user_name),
-      counter: await createGreetings.getUserCounter(user_name)
-   });
+   } catch(error) {
+      next(error)
+   }
 })
+
+app.get('/counter/:user_name', async (req, res, next) => {
+   try {
+      const user_name = req.params.user_name
+
+      res.render('counter', {
+         user_name: await createGreetings.getGreetingFor(user_name),
+         counter: await createGreetings.getUserCounter(user_name)
+      });
+
+   } catch(error) {
+      next(error)
+   }
+})
+
+app.get('/greeted/delete/:id', async (req, res, next) => {
+   try {
+      let id = req.params.id;
+		await createGreetings.deleteById(id);
+      req.flash('info', 'User deleted!')
+      
+      res.redirect('/greeted');
+
+   } catch(error) {
+      next(error)
+   }
+});
+
+// app.get('/greeted/edit/:id', async (req, res, next) => {
+//    try {
+//       console.log(req.params);
+//       req.flash('info', 'Product updated!')
+
+//       res.redirect('/greeted');
+
+//    } catch(error) {
+//       next(error)
+//    }
+// });
 
 const PORT = process.env.PORT || 4001;
 

@@ -1,15 +1,13 @@
 
 module.exports = function CreateGreetings(pool) {
-  let name = "";
   let usersGreeted = {};
   let greeting = "";
 
-  async function setUser(theName) {
-    name = theName;
-    let counter = 1;
+  async function setUser(user) {
+    let data = [user.name, counter = 1]
+    let query = `INSERT INTO users(name, counter) VALUES($1, $2)`
 
-    return pool.query(`INSERT INTO users(name, counter) 
-      values ($1, $2)`, [name, counter]);
+    return  pool.query(query, data)
   }
 
   async function getUsers(){
@@ -21,6 +19,7 @@ module.exports = function CreateGreetings(pool) {
   async function updateUserCounter(theName) {
     let users = await getUsers();
     var id, name = theName, counter; 
+
     if (isNameRepeated(theName)) {
       for(let user of users) {
         if(user.name === theName) {
@@ -100,6 +99,10 @@ module.exports = function CreateGreetings(pool) {
     
     return isRepeated;
   }
+
+  async function deleteById(id) {
+    return pool.query('DELETE FROM users WHERE id = $1', [id]);
+  }
  
   return {
     setUser,
@@ -111,6 +114,8 @@ module.exports = function CreateGreetings(pool) {
     isNameRepeated,
     getGreetingFor,
     updateUserCounter,
+
+    deleteById
 
   }
   
