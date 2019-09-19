@@ -9,12 +9,13 @@ node_js:
 before_script:
   - cp config/database.yml.travis config/database.yml
 
-env:
-  - DATABASE_URL=postgresql://postgres@localhost:5432/users_tests
-
 addons:
-    apt:
+  postgresql: "10"
+  apt:
     packages:
-    - postgresql-server-dev-9.2
-
+    - postgresql-10
+    - postgresql-client-10
+env:
+  global:
+  - PGPORT=5433
 
