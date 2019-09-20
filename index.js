@@ -49,9 +49,15 @@ app.use(express.static('public'))
 
 app.get('/', async (req, res, next) => {
    try {
+      let greetings = await createGreetings.getUsers();
+      if(greetings.length > 0 ) {
+         greeting = createGreetings.getGreeting();
+      } else {
+         greeting = "";
+      }
       res.render('index', {
          user: await createGreetings.getUsers(),
-         greeting: createGreetings.getGreeting(),
+         greeting,
          greetingsCounter: await createGreetings.getGreetingsCounter(),
          inputError: req.flash('msg1')
       });
@@ -92,8 +98,6 @@ app.get('/greeted', async (req, res, next) => {
       res.render('greeted', {
          names: await createGreetings.getUsers(),
          infoMsg: req.flash('info'),
-         show: 'show',
-         hide: 'hide'
       })
 
    } catch(error) {
