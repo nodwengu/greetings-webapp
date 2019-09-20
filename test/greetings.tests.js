@@ -5,7 +5,7 @@ const CreateGreetings = require('../createGreetings');
 const pg = require("pg");
 const Pool = pg.Pool;
 
-const connectionString = 'postgresql://coder:pg123@localhost:5432/users_tests';
+const connectionString = process.env.DATABASE_URL || 'postgresql://coder:pg123@localhost:5432/users_tests';
 
 const pool = new Pool({
   connectionString
