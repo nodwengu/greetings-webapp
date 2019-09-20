@@ -128,6 +128,18 @@ app.get('/greeted/delete/:id', async (req, res, next) => {
    }
 });
 
+app.get('/delete', async (req, res, next) => {
+   try {
+		await createGreetings.deleteUser();
+   
+      res.redirect('/');
+
+   } catch(error) {
+      next(error)
+   }
+
+});
+
 // app.get('/greeted/edit/:id', async (req, res, next) => {
 //    try {
 //       console.log(req.params);

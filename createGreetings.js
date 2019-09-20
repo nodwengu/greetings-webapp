@@ -103,6 +103,12 @@ module.exports = function CreateGreetings(pool) {
   async function deleteById(id) {
     return pool.query('DELETE FROM users WHERE id = $1', [id]);
   }
+
+  async function deleteUser() {
+    let results = pool.query('DELETE FROM users');
+
+    return results;
+  }
  
   return {
     setUser,
@@ -114,8 +120,8 @@ module.exports = function CreateGreetings(pool) {
     isNameRepeated,
     getGreetingFor,
     updateUserCounter,
-
-    deleteById
+    deleteById,
+    deleteUser
 
   }
   
