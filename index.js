@@ -69,11 +69,15 @@ app.get('/', async (req, res, next) => {
 
 app.post('/greet', async (req, res, next) => {
    try {
-      let name = req.body.name;
+      let name = (req.body.name).toLowerCase().trim();
+      name = name.charAt(0).toUpperCase() + name.slice(1);
       let lang = req.body.languageRadio;
+ 
+      var regex = /^[a-zA-Z]*$/;
+      isValid = regex.test(name);
 
-      if (name == "" || (lang === undefined && lang !== 'english' && lang !== 'afrikaans' && lang !== 'xhosa')) {
-         req.flash('msg1', 'Error: Input is required!')
+      if ((name == "" || !isValid) || (lang === undefined && lang !== 'english' && lang !== 'afrikaans' && lang !== 'xhosa')) {
+         req.flash('msg1', 'Please select a language/Please enter a name')
       } else {
          if (await createGreetings.isNameRepeated(name) === false) {
             await createGreetings.setUser({
@@ -146,8 +150,24 @@ app.get('/delete', async (req, res, next) => {
 
 // app.get('/greeted/edit/:id', async (req, res, next) => {
 //    try {
-//       console.log(req.params);
-//       req.flash('info', 'Product updated!')
+//       // res.send(`User Id: ${req.params.id}`);
+//       // req.flash('info', 'Product updated!')
+//       let user = await createGreetings.getById(req.params.id);
+//       let users = createGreetings.getUsers();
+
+//       // var newId, username, counter;
+
+//       // for(let user in users) {
+//       //    if(user.id = id) {
+//       //       newId = user.id;
+//       //       username = user.name;
+//       //       counter = user.counter;
+//       //    }
+//       // }
+
+//       res.send(`User Id: ${user.id} \n Name: ${user.name} \n  Counter: ${user.counter}`);
+//       //res.send(`User Id: ${id}`);
+//       console.log(user.name)
 
 //       res.redirect('/greeted');
 

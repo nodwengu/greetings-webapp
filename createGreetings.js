@@ -47,7 +47,7 @@ module.exports = function CreateGreetings(pool) {
   }
 
   async function getGreetingsCounter() {
-    const query = 'SELECT SUM(counter) FROM users';
+    const query = 'SELECT COUNT(*) FROM users';
     let results = await pool.query(query);
     return results.rows[0];
   }
@@ -109,6 +109,28 @@ module.exports = function CreateGreetings(pool) {
 
     return results;
   }
+
+  async function getById(id) {
+    let getQuery = 'SELECT * FROM users WHERE id = $1';
+    let usernameResult = await pool.query(getQuery, [id]);
+    
+    return usernameResult.rows[0];
+  }
+
+  async function update(user) {
+    let data = [
+      user.id,
+      user.name,
+      user.counter
+    ]
+
+    let updateQuery = `UPDATE users
+      SET id = $1, name = $2, counter = $3
+      WHERE id = $4;
+    `
+
+    return await pool.query(updateQuery, data);
+  }
  
   return {
     setUser,
@@ -121,7 +143,9 @@ module.exports = function CreateGreetings(pool) {
     getGreetingFor,
     updateUserCounter,
     deleteById,
-    deleteUser
+    deleteUser,
+    getById,
+    update
 
   }
   
