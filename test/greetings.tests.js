@@ -31,7 +31,7 @@ describe('The Greetings database web app', function () {
     await createGreetings.setUser({name: 'Thando'});
     await createGreetings.setUser({name: 'Nodwengu'});
    
-    assert.deepEqual({ sum: '2' }, await createGreetings.getGreetingsCounter());
+    assert.deepEqual({ count: '2' }, await createGreetings.getGreetingsCounter());
   });
 
   it('should be able to return the greetings counter for specific user', async function(){
