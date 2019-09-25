@@ -164,7 +164,6 @@ app.get('/greeted/edit/:id', async (req, res, next) => {
 app.post('/greeted/update/:id', async (req, res, next) => {
    try {
       let user = await createGreetings.getById(req.params.id);
-     console.log(req.body.name)
       await createGreetings.update({
          id: user.id,
          name: req.body.name,
