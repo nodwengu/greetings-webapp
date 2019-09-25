@@ -34,22 +34,22 @@ describe('The Greetings database web app', function () {
     assert.deepEqual({ count: '2' }, await createGreetings.getGreetingsCounter());
   });
 
-  // it('should be able to return the greetings counter for specific user', async function(){
-  //   const createGreetings = CreateGreetings(pool);
+  it('should be able to return the greetings counter for specific user', async function(){
+    const createGreetings = CreateGreetings(pool);
     
-  //   await createGreetings.setUser({name: 'Thando'});
+    await createGreetings.setUser({name: 'Thando'});
    
-  //   assert.equal(1, await createGreetings.getUserCounter('Thando'));
-  // });
+    assert.equal(1, await createGreetings.getUserCounter('Thando'));
+  });
 
-  // it('should be able to update and return the greetings counter for specific user', async function(){
-  //   const createGreetings = CreateGreetings(pool);
+  it('should be able to update and return the greetings counter for specific user', async function(){
+    const createGreetings = CreateGreetings(pool);
     
-  //   await createGreetings.setUser({name: 'Thando'});
-  //   await createGreetings.updateUserCounter('Thando');
+    await createGreetings.setUser({name: 'Thando'});
+    await createGreetings.updateUserCounter('Thando');
    
-  //   assert.equal(2, await createGreetings.getUserCounter('Thando'));
-  // });
+    assert.equal(2, await createGreetings.getUserCounter('Thando'));
+  });
 
   it('should be able to greet the user with a selected langauge', async function(){
     const createGreetings = CreateGreetings(pool);
