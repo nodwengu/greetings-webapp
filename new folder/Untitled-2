@@ -1,0 +1,75 @@
+Greet web form
+    Setup development environment
+    create a folder greetings-webapp
+    Create basic html page
+    Style the page
+    Do section reflection
+
+GitHub
+Commit to GitHub & deploy the app using Heroku
+
+Create index.js file
+    install and import the following middleware
+        static resources
+        body-parser
+        Handlebars templating
+        Create a route called /greeted that displays a list of all the users that have been greeted.
+        Create a route called /counter/<USER_NAME> that shows how many times a user has been greeted
+        Do section reflection
+
+choices_with_forms
+    update the html file as required
+    Work on the radio selection to greet in the selected language
+    Do section reflection
+
+Deploy application
+    read about Heroku from: https://www.heroku.com/nodejs
+    read about Heroku from: https://devcenter.heroku.com/articles/deploying-nodejs
+     Do section reflection
+
+Persisting data
+    Use PostgreSQL, with the node-postgres module.
+        Do research on PostgreSQL-follow some links
+        Do research on node-postgres module - follow some links
+        Create users table to store data
+        Do section reflection
+
+SQL
+    Learn how to use SQL to manipulate data by doing the sqlteaching learning.
+    Once registered email the mentors to activate your sqlteaching account.
+    Do section reflection
+
+Installing and using PostgreSQL
+    setup the project at crud.projectcodex.co the local machine.
+    Do section reflection
+
+JavaScript
+    Use PostgreSQL with NodeJS to model, store, update and retrieve data on PostgreSQL from NodeJS.
+    Do section reflection
+
+Unit tests with the database
+    Write some unit tests for your database code.
+    The crud.projectcodex.co project have an example of a database unit test.
+    Do section reflection
+
+Deploying apps using Postgresql to Heroku
+    learn how to deploy your application to Heroku using Postgresql
+    Take a look at the deployment section on the http://crud.projectcodex.co instructions. 
+    populate the remote Postgresql instance using the remote psql instance instantiated via heroku pg:psql
+    Do section reflection
+
+Reset the counter
+    Add a button to reset the greetings counter to 0.
+    Use a sql query to delete all the users greeted.
+    Do section reflection
+
+
+Count different greetings
+    Change your greetings counter to count how many different people have been greeted
+    Do section reflection
+
+Do Project reflection
+
+
+
+

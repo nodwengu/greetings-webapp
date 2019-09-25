@@ -148,33 +148,37 @@ app.get('/delete', async (req, res, next) => {
 
 });
 
-// app.get('/greeted/edit/:id', async (req, res, next) => {
-//    try {
-//       // res.send(`User Id: ${req.params.id}`);
-//       // req.flash('info', 'Product updated!')
-//       let user = await createGreetings.getById(req.params.id);
-//       let users = createGreetings.getUsers();
+app.get('/greeted/edit/:id', async (req, res, next) => {
+   try {
+      let user = await createGreetings.getById(req.params.id);
+     
+      res.render('edit', {
+         user: await createGreetings.getById(req.params.id)
+      });
 
-//       // var newId, username, counter;
+   } catch(error) {
+      next(error)
+   }
+});
 
-//       // for(let user in users) {
-//       //    if(user.id = id) {
-//       //       newId = user.id;
-//       //       username = user.name;
-//       //       counter = user.counter;
-//       //    }
-//       // }
+app.post('/greeted/update/:id', async (req, res, next) => {
+   try {
+      let user = await createGreetings.getById(req.params.id);
+     console.log(req.body.name)
+      await createGreetings.update({
+         id: user.id,
+         name: req.body.name,
+         counter: user.counter,
+      });
+      
+      //req.flash('info', 'User updated!')
 
-//       res.send(`User Id: ${user.id} \n Name: ${user.name} \n  Counter: ${user.counter}`);
-//       //res.send(`User Id: ${id}`);
-//       console.log(user.name)
+      res.redirect('/greeted/');
 
-//       res.redirect('/greeted');
-
-//    } catch(error) {
-//       next(error)
-//    }
-// });
+   } catch(error) {
+      next(error.stack)
+   }
+});
 
 const PORT = process.env.PORT || 4001;
 

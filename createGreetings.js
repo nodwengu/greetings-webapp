@@ -126,11 +126,11 @@ module.exports = function CreateGreetings(pool) {
 
     let updateQuery = `UPDATE users
       SET id = $1, name = $2, counter = $3
-      WHERE id = $4;
+      WHERE id = $1;
     `
-
-    return await pool.query(updateQuery, data);
+    return pool.query(updateQuery, data);
   }
+  
  
   return {
     setUser,

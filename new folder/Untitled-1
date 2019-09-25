@@ -1,0 +1,26 @@
+Greet Web Form Reflection:
+    Which project have you just completed?
+
+    Which skills did you use that you already knew?
+        I already knew to export and import necessary modules
+        I already knew to configure handlebars and static resources
+        I already knew to use git commit to GitHub 
+        I already knew to hide folders the puiblic using .gitignore
+
+    Which new skills did you learn?
+        Using flash to display a warning message on the screen using express-flash
+    What obstacles did you face?
+        none at the moment
+    What did you learn from this project?
+        I basically used the learned from the previous exercises
+
+
+    COUNTER STYLE 
+
+    border: solid #4ec8ba 1px;
+    background-color: white;
+    width: 63px;
+    height: 63px;
+    border-radius: 101%;
+}
+
